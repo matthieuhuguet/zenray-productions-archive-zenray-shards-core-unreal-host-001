@@ -1,0 +1,10 @@
+{
+	"BuildId": "55116800",
+	"Modules": 
+	{
+		"BodyTracker": "libUnrealEditor-BodyTracker.dylib",
+		"MetaHumanBodyOptimizer": "libUnrealEditor-MetaHumanBodyOptimizer.dylib",
+		"MetaHumanBodyTracker": "libUnrealEditor-MetaHumanBodyTracker.dylib",
+		"Segmentation": "libUnrealEditor-Segmentation.dylib"
+	}
+}

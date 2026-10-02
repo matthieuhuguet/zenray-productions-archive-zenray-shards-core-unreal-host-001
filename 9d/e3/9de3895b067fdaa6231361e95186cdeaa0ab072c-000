@@ -1,0 +1,13 @@
+[/Script/ModelContextProtocolEngine.ModelContextProtocolSettings]
+bAutoStartServer=True
+ServerPortNumber=8000
+ServerUrlPath=/mcp
+
+[/Script/CaptureManagerEditorSettings.CaptureManagerEditorSettings]
+; ENCODEUR EXTERNE POUR L'INGESTION VIDEO (2026-08-22).
+; L'ingestion refusait le MP4 H.264 : « Video file format is unsupported. Consider enabling Third
+; Party Encoder in Capture Manager settings. » Les lecteurs media du moteur ne couvrent pas tous les
+; encodages ; le Capture Manager sait deleguer a un encodeur externe, et ffmpeg est deja installe
+; sur cette machine. On l'active et on le pointe.
+bEnableThirdPartyEncoder=True
+ThirdPartyEncoder=(FilePath="/opt/homebrew/bin/ffmpeg")

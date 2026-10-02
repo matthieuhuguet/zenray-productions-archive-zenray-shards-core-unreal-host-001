@@ -1,0 +1,133 @@
+
+
+[/Script/EngineSettings.GameMapsSettings]
+; LE NIVEAU DU JEU S'OUVRE TOUT SEUL (2026-08-22, demande de Matthieu : « faut que tu le mettes en
+; startup, sinon je dois recliquer a chaque fois »).
+;
+; Deux cles, deux moments differents, et c'est pour ca qu'il en faut DEUX :
+;   EditorStartupMap = ce que l'EDITEUR ouvre au demarrage. Il n'existait pas du tout, d'ou le
+;                      niveau vide `/Temp/Untitled` a chaque lancement.
+;   GameDefaultMap   = ce qu'un BUILD empaquete lance. Il pointait sur le gabarit OpenWorld du
+;                      moteur, donc un jeu exporte n'aurait jamais montre ZenRayShards.
+;
+; Le chemin porte le nom DEUX FOIS (`L_Level1.L_Level1`) : c'est la forme longue paquet + objet
+; qu'attend le moteur pour une reference de carte. La forme courte est acceptee dans certains
+; contextes mais pas ici, et l'echec serait silencieux.
+EditorStartupMap=/Game/ZenRayShards/Levels/L_Level1.L_Level1
+GameDefaultMap=/Game/ZenRayShards/Levels/L_Level1.L_Level1
+
+[/Script/Engine.RendererSettings]
+r.AllowStaticLighting=False
+r.Shadow.Virtual.Enable=1
+
+r.GenerateMeshDistanceFields=True
+
+r.DynamicGlobalIlluminationMethod=1
+
+r.ReflectionMethod=1
+
+r.SkinCache.CompileShaders=True
+
+r.RayTracing=True
+
+r.RayTracing.RayTracingProxies.ProjectEnabled=True
+
+r.Substrate=True
+
+r.Substrate.ProjectGBufferFormat=0
+
+r.DefaultFeature.AutoExposure.ExtendDefaultLuminanceRange=True
+
+r.DefaultFeature.LocalExposure.HighlightContrastScale=0.8
+
+r.DefaultFeature.LocalExposure.ShadowContrastScale=0.8
+r.GPUSkin.Support16BitBoneIndex=True
+r.GPUSkin.UnlimitedBoneInfluences=True
+SkeletalMesh.UseExperimentalChunking=1
+
+[/Script/WindowsTargetPlatform.WindowsTargetSettings]
+DefaultGraphicsRHI=DefaultGraphicsRHI_DX12
+DefaultGraphicsRHI=DefaultGraphicsRHI_DX12
+-D3D12TargetedShaderFormats=PCD3D_SM5
++D3D12TargetedShaderFormats=PCD3D_SM6
+-D3D11TargetedShaderFormats=PCD3D_SM5
++D3D11TargetedShaderFormats=PCD3D_SM5
+Compiler=Default
+AudioSampleRate=48000
+AudioCallbackBufferFrameSize=1024
+AudioNumBuffersToEnqueue=1
+AudioMaxChannels=0
+AudioNumSourceWorkers=4
+SpatializationPlugin=
+SourceDataOverridePlugin=
+ReverbPlugin=
+OcclusionPlugin=
+CompressionOverrides=(bOverrideCompressionTimes=False,DurationThreshold=5.000000,MaxNumRandomBranches=0,SoundCueQualityIndex=0)
+CacheSizeKB=65536
+MaxChunkSizeOverrideKB=0
+bResampleForDevice=False
+MaxSampleRate=48000.000000
+HighSampleRate=32000.000000
+MedSampleRate=24000.000000
+LowSampleRate=12000.000000
+MinSampleRate=8000.000000
+CompressionQualityModifier=1.000000
+AutoStreamingThreshold=0.000000
+SoundCueCookQualityIndex=-1
+
+[/Script/LinuxTargetPlatform.LinuxTargetSettings]
+-TargetedRHIs=SF_VULKAN_SM5
++TargetedRHIs=SF_VULKAN_SM6
+
+[/Script/MacTargetPlatform.MacTargetSettings]
+-TargetedRHIs=SF_METAL_SM5
++TargetedRHIs=SF_METAL_SM6
+
+[/Script/HardwareTargeting.HardwareTargetingSettings]
+TargetedHardwareClass=Desktop
+AppliedTargetedHardwareClass=Desktop
+DefaultGraphicsPerformance=Maximum
+AppliedDefaultGraphicsPerformance=Maximum
+
+[/Script/WorldPartitionEditor.WorldPartitionEditorSettings]
+CommandletClass=Class'/Script/UnrealEd.WorldPartitionConvertCommandlet'
+
+[/Script/Engine.UserInterfaceSettings]
+bAuthorizeAutomaticWidgetVariableCreation=False
+FontDPIPreset=Standard
+FontDPI=72
+
+[/Script/Engine.Engine]
++ActiveGameNameRedirects=(OldGameName="TP_BlankBP",NewGameName="/Script/ZenRayShards")
++ActiveGameNameRedirects=(OldGameName="/Script/TP_BlankBP",NewGameName="/Script/ZenRayShards")
+
+[/Script/AndroidFileServerEditor.AndroidFileServerRuntimeSettings]
+bEnablePlugin=True
+bAllowNetworkConnection=True
+SecurityToken=32C70D39B6485A342A60F2A2D5F25539
+bIncludeInShipping=False
+bAllowExternalStartInShipping=False
+bCompileAFSProject=False
+bUseCompression=False
+bLogFiles=False
+bReportStats=False
+ConnectionType=USBOnly
+bUseManualIPAddress=False
+ManualIPAddress=
+
+[CrashReportClient]
+; PLUS AUCUNE FENETRE DE PLANTAGE POUR UN ENSURE (2026-08-22, demande de Matthieu).
+;
+; Ce qui s'est passe le 22 aout, et qui n'etait PAS un plantage de l'editeur : un ENSURE a
+; declenche. Un ensure est une assertion NON FATALE — le moteur la journalise et continue, et
+; l'editeur (PID 89346) tournait toujours, repondait toujours au MCP, sur le meme niveau. Ce qui a
+; plante est `CrashReportClientEditor`, le PROCESSUS RAPPORTEUR que le moteur lance pour transmettre
+; l'ensure. Le rapporteur est mort, l'editeur non.
+;
+; `Ensure.RecordDump` est la cle EXACTE lue dans le CrashReportClient.ini genere au moment des faits,
+; ou elle valait `true` : c'est elle qui fait enregistrer un minidump et lancer le rapporteur pour un
+; ensure. A `false`, un ensure reste journalise mais ne lance plus personne, donc plus aucune fenetre.
+;
+; Ce reglage ne masque pas un vrai plantage : un crash fatal reste rapporte. Il ne coupe QUE le
+; rapport des assertions non fatales, celles qui n'interrompent pas le travail.
+Ensure.RecordDump=false

@@ -1,0 +1,12 @@
+
+
+[/Script/CommonUI.CommonUISettings]
+CommonButtonAcceptKeyHandling=TriggerClick
+
+[ConsoleVariables]
+CommonUI.CheckKeyboardFocusAndParentage=1
+CommonUI.DisallowUserFocusedWidgetForPendingFocusRecipient=1
+CommonUI.FallbackToDesiredOnAutoRestoreFailure=1
+
+[/Script/EngineSettings.GeneralProjectSettings]
+ProjectID=7B13D204CA4D945C03F797BCC594100E
