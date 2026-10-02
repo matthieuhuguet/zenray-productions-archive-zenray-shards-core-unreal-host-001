@@ -1,0 +1,9 @@
+{
+	"BuildId": "55116800",
+	"Modules": 
+	{
+		"HoudiniEngine": "libUnrealEditor-HoudiniEngine.dylib",
+		"HoudiniEngineEditor": "libUnrealEditor-HoudiniEngineEditor.dylib",
+		"HoudiniEngineRuntime": "libUnrealEditor-HoudiniEngineRuntime.dylib"
+	}
+}
